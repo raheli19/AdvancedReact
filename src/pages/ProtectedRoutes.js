@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import { Navigate, Outlet } from "react-router-dom";
-import axios from "axios";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 
 export default function ProtectedRoutes({ setUser }) {
+  const navigate = useNavigate();
   const userLocalStorage = window.localStorage.getItem("user");
-  // axios.get("http://localhost:3000/user").then((res) => {
-  //   console.log(res.data);
-  // }); aucune raison d'etre ici juste pour exemple
+  if(userLocalStorage){
+    navigate("/home");
+  }
   useEffect(() => {
     setUser(JSON.parse(userLocalStorage));
   }, []);
