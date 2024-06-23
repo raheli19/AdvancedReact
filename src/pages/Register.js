@@ -39,6 +39,48 @@ function Register({ setUser }) {
     }
   };
 
+    const handleRegister = async () => {
+      const newUser = {
+        id: Date.now().toString(),
+        name,
+        username: userName,
+        email,
+        address: {
+          street,
+          suite,
+          city,
+          zipcode,
+          geo: {
+            lat,
+            lng,
+          },
+        },
+        phone,
+        website,
+        company: {
+          name: companyName,
+          catchPhrase,
+          bs,
+        },
+      };
+
+      let response = await fetch("http://localhost:3000/user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newUser),
+      });
+
+      if (response.ok) {
+        setUser(newUser);
+        window.localStorage.setItem("user", JSON.stringify(newUser));
+        navigate("/home");
+      } else {
+        setError("An error occurred while registering. Please try again.");
+      }
+    };
+
   const formStyle = {
     display: "flex",
     flexDirection: "column",
@@ -57,24 +99,42 @@ function Register({ setUser }) {
     fontWeight: "bold",
   };
 
-  const buttonStyle = {
-    backgroundColor: "#4CAF50", // Green background
-    color: "white", // White text
-    padding: "15px 20px", // Padding
-    textAlign: "center", // Centered text
-    textDecoration: "none", // Remove underline
-    display: "inline-block", // Inline-block element
-    fontSize: "16px", // Font size
-    margin: "10px 2px", // Margin
-    cursor: "pointer", // Pointer cursor on hover
-    border: "none", // Remove border
-    borderRadius: "8px", // Rounded corners
-    transition: "background-color 0.3s", // Smooth transition for background color
-  };
+   const buttonStyle = {
+     width: "100%",
+     padding: "10px",
+     borderRadius: "5px",
+     border: "none",
+     backgroundColor: "#4CAF50",
+     color: "white",
+     fontWeight: "bold",
+     cursor: "pointer",
+     marginBottom: "10px",
+     transition: "background-color 0.3s",
+   };
+    const buttonLogInStyle = {
+      ...buttonStyle,
+      backgroundColor: "#008CBA",
+    };
+    const pageStyle = {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+     
+      backgroundColor: "#f0f2f5",
+    };
+
+    const containerStyle = {
+      backgroundColor: "white",
+      padding: "20px",
+      borderRadius: "10px",
+      boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+      width: "300px",
+      textAlign: "center",
+    };
 
   return (
-    <div>
-      <div className="login-container">
+    <div style={pageStyle}>
+      <div style={containerStyle} className="login-container">
         <h2>Register</h2>
 
         <form onSubmit={handleSubmit}>
@@ -218,7 +278,12 @@ function Register({ setUser }) {
           )}
 
           {error && <p className="error-message">{error}</p>}
-          <button style={buttonStyle} type="submit" className="login-button">
+          <button
+            style={buttonStyle}
+            type="submit"
+            className="login-button"
+            onClick={step === "second" ? handleRegister : null}
+          >
             {step === "first" ? "Continue" : "Register"}
           </button>
 
@@ -233,13 +298,13 @@ function Register({ setUser }) {
           ) : null}
           {step === "first" ? (
             <button
-              style={buttonStyle}
+              style={buttonLogInStyle}
               className="login-button"
               onClick={() => navigate("/login")}
             >
               Login
             </button>
-          ): null}
+          ) : null}
         </form>
       </div>
     </div>
