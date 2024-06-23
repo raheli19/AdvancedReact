@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { Route, Routes, BrowserRouter, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Info from "./pages/Info";
@@ -19,6 +19,7 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<ProtectedRoutes setUser={setUser} />}>
+            <Route index element={<Navigate to="/home" />} />
             <Route path="/home" element={<Home user={user} />} />
             <Route path="/Info" element={<Info user={user} />} />
             <Route path="/Todos" element={<Todos user={user} />} />

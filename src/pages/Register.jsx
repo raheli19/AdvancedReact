@@ -81,234 +81,249 @@ function Register({ setUser }) {
       }
     };
 
-  const formStyle = {
-    display: "flex",
-    flexDirection: "column",
-    maxWidth: "400px",
-    margin: "0 auto",
-  };
+const commonFormStyle = {
+  display: "flex",
+  flexDirection: "column",
+  margin: "0 auto",
+};
 
-  const inputStyle = {
-    marginBottom: "10px",
-    padding: "8px",
-    fontSize: "16px",
-  };
+const formStyle = {
+  ...commonFormStyle,
+  maxWidth: "400px",
+};
 
-  const labelStyle = {
-    marginBottom: "5px",
-    fontWeight: "bold",
-  };
+const formStyleTwo = {
+  ...commonFormStyle,
+  marginTop: "20px",
+  padding: "20px",
+  overflowY: "auto",
+  maxHeight: "calc(100vh - 60px)", // Adjust based on desired padding/margin
+};
 
-   const buttonStyle = {
-     width: "100%",
-     padding: "10px",
-     borderRadius: "5px",
-     border: "none",
-     backgroundColor: "#4CAF50",
-     color: "white",
-     fontWeight: "bold",
-     cursor: "pointer",
-     marginBottom: "10px",
-     transition: "background-color 0.3s",
-   };
-    const buttonLogInStyle = {
-      ...buttonStyle,
-      backgroundColor: "#008CBA",
-    };
-    const pageStyle = {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-     
-      backgroundColor: "#f0f2f5",
-    };
+const inputStyle = {
+  marginBottom: "10px",
+  padding: "8px",
+  fontSize: "16px",
+};
 
-    const containerStyle = {
-      backgroundColor: "white",
-      padding: "20px",
-      borderRadius: "10px",
-      boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-      width: "300px",
-      textAlign: "center",
-    };
+const labelStyle = {
+  marginBottom: "5px",
+  fontWeight: "bold",
+};
 
-  return (
-    <div style={pageStyle}>
-      <div style={containerStyle} className="login-container">
-        <h2>Register</h2>
+const buttonStyle = {
+  width: "100%",
+  padding: "10px",
+  borderRadius: "5px",
+  border: "none",
+  backgroundColor: "#4CAF50",
+  color: "white",
+  fontWeight: "bold",
+  cursor: "pointer",
+  marginBottom: "10px",
+  transition: "background-color 0.3s",
+};
 
-        <form onSubmit={handleSubmit}>
-          {step === "first" ? (
-            <div style={formStyle}>
-              <label style={labelStyle}>User Name</label>
-              <input
-                style={inputStyle}
-                type="text"
-                placeholder="Enter UserName"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-              />
-              <label style={labelStyle}>Password</label>
-              <input
-                style={inputStyle}
-                required
-                type="password"
-                id="password"
-                placeholder="Enter password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <label style={labelStyle}>Verify Password</label>
-              <input
-                required
-                style={inputStyle}
-                type="password"
-                id="verify-password"
-                placeholder="Verify password"
-                value={verifyPassword}
-                onChange={(e) => setVerifyPassword(e.target.value)}
-              />
-            </div>
-          ) : (
-            <div style={formStyle}>
-              <label style={labelStyle}>Name</label>
-              <input
-                style={inputStyle}
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
+const buttonLogInStyle = {
+  ...buttonStyle,
+  backgroundColor: "#008CBA",
+};
 
-              <label style={labelStyle}>Email</label>
-              <input
-                style={inputStyle}
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+const pageStyle = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100vh",
+  backgroundColor: "#f0f2f5",
+};
 
-              <label style={labelStyle}>Street</label>
-              <input
-                style={inputStyle}
-                type="text"
-                value={street}
-                onChange={(e) => setStreet(e.target.value)}
-              />
+const containerStyle = {
+  backgroundColor: "white",
+  padding: "20px",
+  borderRadius: "10px",
+  boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+  width: "300px",
+  textAlign: "center",
+  maxHeight: "100%", 
+};
 
-              <label style={labelStyle}>Suite</label>
-              <input
-                style={inputStyle}
-                type="text"
-                value={suite}
-                onChange={(e) => setSuite(e.target.value)}
-              />
+return (
+  <div style={pageStyle}>
+    <div style={containerStyle} className="login-container">
+      <h2>Register</h2>
 
-              <label style={labelStyle}>City</label>
-              <input
-                style={inputStyle}
-                type="text"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-              />
+      <form onSubmit={handleSubmit}>
+        {step === "first" ? (
+          <div style={formStyle}>
+            <label style={labelStyle}>User Name</label>
+            <input
+              style={inputStyle}
+              type="text"
+              placeholder="Enter UserName"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+            />
+            <label style={labelStyle}>Password</label>
+            <input
+              style={inputStyle}
+              required
+              type="password"
+              id="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <label style={labelStyle}>Verify Password</label>
+            <input
+              required
+              style={inputStyle}
+              type="password"
+              id="verify-password"
+              placeholder="Verify password"
+              value={verifyPassword}
+              onChange={(e) => setVerifyPassword(e.target.value)}
+            />
+          </div>
+        ) : (
+          <div style={formStyleTwo}>
+            <label style={labelStyle}>Name</label>
+            <input
+              style={inputStyle}
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
 
-              <label style={labelStyle}>Zipcode</label>
-              <input
-                style={inputStyle}
-                type="text"
-                value={zipcode}
-                onChange={(e) => setZipcode(e.target.value)}
-              />
+            <label style={labelStyle}>Email</label>
+            <input
+              style={inputStyle}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
-              <label style={labelStyle}>Latitude</label>
-              <input
-                style={inputStyle}
-                type="text"
-                value={lat}
-                onChange={(e) => setLat(e.target.value)}
-              />
+            <label style={labelStyle}>Street</label>
+            <input
+              style={inputStyle}
+              type="text"
+              value={street}
+              onChange={(e) => setStreet(e.target.value)}
+            />
 
-              <label style={labelStyle}>Longitude</label>
-              <input
-                style={inputStyle}
-                type="text"
-                value={lng}
-                onChange={(e) => setLng(e.target.value)}
-              />
+            <label style={labelStyle}>Suite</label>
+            <input
+              style={inputStyle}
+              type="text"
+              value={suite}
+              onChange={(e) => setSuite(e.target.value)}
+            />
 
-              <label style={labelStyle}>Phone</label>
-              <input
-                style={inputStyle}
-                type="text"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-              />
+            <label style={labelStyle}>City</label>
+            <input
+              style={inputStyle}
+              type="text"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            />
 
-              <label style={labelStyle}>Website</label>
-              <input
-                style={inputStyle}
-                type="text"
-                value={website}
-                onChange={(e) => setWebsite(e.target.value)}
-              />
+            <label style={labelStyle}>Zipcode</label>
+            <input
+              style={inputStyle}
+              type="text"
+              value={zipcode}
+              onChange={(e) => setZipcode(e.target.value)}
+            />
 
-              <label style={labelStyle}>Company Name</label>
-              <input
-                style={inputStyle}
-                type="text"
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-              />
+            <label style={labelStyle}>Latitude</label>
+            <input
+              style={inputStyle}
+              type="text"
+              value={lat}
+              onChange={(e) => setLat(e.target.value)}
+            />
 
-              <label style={labelStyle}>Catch Phrase</label>
-              <input
-                style={inputStyle}
-                type="text"
-                value={catchPhrase}
-                onChange={(e) => setCatchPhrase(e.target.value)}
-              />
+            <label style={labelStyle}>Longitude</label>
+            <input
+              style={inputStyle}
+              type="text"
+              value={lng}
+              onChange={(e) => setLng(e.target.value)}
+            />
 
-              <label style={labelStyle}>BS</label>
-              <input
-                style={inputStyle}
-                type="text"
-                value={bs}
-                onChange={(e) => setBs(e.target.value)}
-              />
-            </div>
-          )}
+            <label style={labelStyle}>Phone</label>
+            <input
+              style={inputStyle}
+              type="text"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
 
-          {error && <p className="error-message">{error}</p>}
+            <label style={labelStyle}>Website</label>
+            <input
+              style={inputStyle}
+              type="text"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+            />
+
+            <label style={labelStyle}>Company Name</label>
+            <input
+              style={inputStyle}
+              type="text"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+            />
+
+            <label style={labelStyle}>Catch Phrase</label>
+            <input
+              style={inputStyle}
+              type="text"
+              value={catchPhrase}
+              onChange={(e) => setCatchPhrase(e.target.value)}
+            />
+
+            <label style={labelStyle}>BS</label>
+            <input
+              style={inputStyle}
+              type="text"
+              value={bs}
+              onChange={(e) => setBs(e.target.value)}
+            />
+          </div>
+        )}
+
+        {error && <p className="error-message">{error}</p>}
+        <button
+          style={buttonStyle}
+          type="submit"
+          className="login-button"
+          onClick={step === "second" ? handleRegister : null}
+        >
+          {step === "first" ? "Continue" : "Register"}
+        </button>
+
+        {step === "second" ? (
           <button
             style={buttonStyle}
-            type="submit"
             className="login-button"
-            onClick={step === "second" ? handleRegister : null}
+            onClick={() => setStep("first")}
           >
-            {step === "first" ? "Continue" : "Register"}
+            Return
           </button>
-
-          {step === "second" ? (
-            <button
-              style={buttonStyle}
-              className="login-button"
-              onClick={() => setStep("first")}
-            >
-              Return
-            </button>
-          ) : null}
-          {step === "first" ? (
-            <button
-              style={buttonLogInStyle}
-              className="login-button"
-              onClick={() => navigate("/login")}
-            >
-              Login
-            </button>
-          ) : null}
-        </form>
-      </div>
+        ) : null}
+        {step === "first" ? (
+          <button
+            style={buttonLogInStyle}
+            className="login-button"
+            onClick={() => navigate("/login")}
+          >
+            Login
+          </button>
+        ) : null}
+      </form>
     </div>
-  );
+  </div>
+);
 }
 
 export default Register;
