@@ -1,77 +1,42 @@
 import React from "react";
+import "../css/Info.css"; // Import the new CSS file
 
 function Info({ user }) {
   if (!user) {
     return <div></div>;
   }
 
-  const infoContainerStyle = {
-    fontFamily: "Arial, sans-serif",
-    backgroundColor: "#f9f9f9",
-    padding: "20px",
-    borderRadius: "8px",
-    maxWidth: "600px",
-    margin: "20px auto",
-    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-  };
-
-  const infoTitleStyle = {
-    color: "#333",
-    textAlign: "center",
-    marginBottom: "20px",
-  };
-
-  const infoDetailsStyle = {
-    lineHeight: "1.6",
-  };
-
-  const infoFieldStyle = {
-    marginBottom: "10px",
-  };
-
-  const strongStyle = {
-    color: "#555",
-  };
-
-  const hrStyle = {
-    border: "1px solid #ddd",
-    margin: "20px 0",
-  };
-
   return (
-    <div style={infoContainerStyle}>
-      <h1 style={infoTitleStyle}>User Information</h1>
-      <hr style={hrStyle} />
-      <div style={infoDetailsStyle}>
-        <p style={infoFieldStyle}>
-          <strong style={strongStyle}>ID:</strong> {user.id}
+    <div className="info-container">
+      <h1 className="info-title">User Information</h1>
+      <hr className="info-hr" />
+      <div className="info-details">
+        <p className="info-field">
+          <strong>ID:</strong> {user.id}
         </p>
-        <p style={infoFieldStyle}>
-          <strong style={strongStyle}>Name:</strong> {user.name}
+        <p className="info-field">
+          <strong>Name:</strong> {user.name}
         </p>
-        <p style={infoFieldStyle}>
-          <strong style={strongStyle}>Username:</strong> {user.username}
+        <p className="info-field">
+          <strong>Username:</strong> {user.username}
         </p>
-        <p style={infoFieldStyle}>
-          <strong style={strongStyle}>Email:</strong> {user.email}
+        <p className="info-field">
+          <strong>Email:</strong> {user.email}
         </p>
-        <p style={infoFieldStyle}>
-          <strong style={strongStyle}>Address:</strong> {user.address.street},{" "}
-          {user.address.suite}, {user.address.city}, {user.address.zipcode}
+        <p className="info-field">
+          <strong>Address:</strong> {user.address.street}, {user.address.suite}, {user.address.city}, {user.address.zipcode}
         </p>
-        <p style={infoFieldStyle}>
-          <strong style={strongStyle}>Geo:</strong> Lat: {user.address.geo.lat},
-          Lng: {user.address.geo.lng}
+        <p className="info-field">
+          <strong>Geo:</strong> Lat: {user.address.geo.lat}, Lng: {user.address.geo.lng}
         </p>
-        <p style={infoFieldStyle}>
-          <strong style={strongStyle}>Phone:</strong> {user.phone}
+        <p className="info-field">
+          <strong>Phone:</strong> {user.phone}
         </p>
-        <p style={infoFieldStyle}>
-          <strong style={strongStyle}>Website:</strong> {user.website}
+        <p className="info-field">
+          <strong>Website:</strong> {user.website}
         </p>
-        <p style={infoFieldStyle}>
-          <strong style={strongStyle}>Company:</strong> {user.company.name},{" "}
-          {user.company.catchPhrase}, {user.company.bs}
+        <p className="info-field">
+          <strong>Company:</strong> {user.company.name}, {user.company.catchPhrase}, {user.company.bs}
         </p>
       </div>
     </div>

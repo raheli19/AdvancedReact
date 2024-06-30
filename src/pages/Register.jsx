@@ -7,7 +7,7 @@ function Register({ setUser }) {
   const [verifyPassword, setVerifyPassword] = useState("");
   const [error, setError] = useState("");
   const [step, setStep] = useState("first");
-  const [id, setId] = useState("");
+  //const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [street, setStreet] = useState("");

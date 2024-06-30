@@ -10,6 +10,7 @@ import Todos from "./pages/Todos";
 import ProtectedRoutes from "./pages/ProtectedRoutes";
 import Photos from "./pages/Photos";
 import Register from "./pages/Register";
+import NewPost from "./pages/NewPost";
 import "./App.css";
 
 export default function App() {
@@ -25,6 +26,7 @@ export default function App() {
             <Route path="/Todos" element={<Todos user={user} />} />
             <Route path="/Posts" element={<Posts user={user} />} />
             <Route path="/Posts/:postId" element={<Posts user={user} />} />
+            <Route path="/NewPost" element={<NewPost user={user} />} />
             <Route path="/Albums" element={<Albums user={user} />} />
             <Route path="/Albums/:albumId" element={<Photos user={user} />} />
             <Route path="/Logout" element={<Logout setUser={setUser} />} />
