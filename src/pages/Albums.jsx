@@ -1,3 +1,8 @@
+/*This component allows users to view, search, and add albums.
+ It fetches albums from the server based on the user ID, displays them, and provides functionality to add new albums.
+ The search functionality filters albums by ID and title.*/ 
+
+
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -5,9 +10,17 @@ import { faFolder } from '@fortawesome/free-solid-svg-icons';
 import "../css/Albums.css";
 
 function Albums({ user }) {
+
+  //State for storing the list of albums
   const [albums, setAlbums] = useState([]);
+
+  //State for storing the search term used to filter albums
   const [searchTerm, setSearchTerm] = useState('');
+
+  //State for storing the title of a new album being added.
   const [newAlbumTitle, setNewAlbumTitle] = useState('');
+
+  //Extracts userId from the URL parameters
   const { userId } = useParams();
 
   useEffect(() => {
@@ -22,6 +35,7 @@ function Albums({ user }) {
       });
   }, [user]);
 
+  //This function is called when the user clicks the "Add Album" button
   const handleAddAlbum = () => {
     const newAlbum = {
       userId: user.id,
@@ -29,6 +43,7 @@ function Albums({ user }) {
       title: newAlbumTitle
     };
 
+    //Makes a POST request to add the new album to the server
     fetch('http://localhost:3000/albums', {
       method: 'POST',
       headers: {
@@ -48,6 +63,8 @@ function Albums({ user }) {
       });
   };
 
+  //Filters the albums state based on the searchTerm.
+ // It checks if the album's ID or title contains the search term.
   const filteredAlbums = albums.filter(album =>
     album.id.toString().includes(searchTerm) || album.title.toLowerCase().includes(searchTerm.toLowerCase())
   );

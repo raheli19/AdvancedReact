@@ -1,17 +1,31 @@
+/*This component allows users to view, add, delete, and update photos in an album. 
+It fetches photos from the server based on the album ID, displays them, and provides functionality to add, delete, and update photos.
+ */
+
+
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import "../css/Photos.css";
 
 const Photos = () => {
+
+  //Extracts albumId from the URL parameters.
   const { albumId } = useParams();
+
+  //State for storing the list of photos.
   const [photos, setPhotos] = useState([]);
+
+  //State for storing the URL of a new photo being added.
   const [newPhotoUrl, setNewPhotoUrl] = useState('');
+  
+  //State for storing the title of a new photo being added
   const [newPhotoTitle, setNewPhotoTitle] = useState('');
 
   useEffect(() => {
     fetchPhotos();
   }, [albumId]);
 
+  //Makes a GET request to fetch photos for the specified album
   const fetchPhotos = () => {
     fetch(`http://localhost:3000/photos?albumId=${albumId}`)
       .then((response) => response.json())
@@ -19,9 +33,13 @@ const Photos = () => {
       .catch((error) => console.error('Error fetching photos:', error));
   };
 
+  //This function is called when the user clicks the "Add Photo" button.
   const handleAddPhoto = () => {
+
+    //Ensures that the photo title and URL are not empty
     if (newPhotoTitle.trim() === "" || newPhotoUrl.trim() === "") return;
 
+    //Creates a new photo object with the album ID, title, URL, and thumbnail URL.
     const newPhoto = {
       albumId: parseInt(albumId, 10),
       title: newPhotoTitle,
@@ -29,6 +47,7 @@ const Photos = () => {
       thumbnailUrl: newPhotoUrl
     };
 
+    //Makes a POST request to add the new photo to the server.
     fetch('http://localhost:3000/photos', {
       method: 'POST',
       headers: {
@@ -38,6 +57,7 @@ const Photos = () => {
     })
       .then(response => response.json())
       .then(data => {
+        //Updates the photos state with the newly added photo
         setPhotos([...photos, data]);
         setNewPhotoTitle('');
         setNewPhotoUrl('');
@@ -47,7 +67,9 @@ const Photos = () => {
       });
   };
 
+  //This function is called when the user clicks the "Delete" button on a photo.
   const handleDeletePhoto = (id) => {
+    //Makes a DELETE request to remove the photo from the server.
     fetch(`http://localhost:3000/photos/${id}`, {
       method: 'DELETE',
     })
@@ -60,7 +82,9 @@ const Photos = () => {
     });
   };
 
+  //This function is called when the user updates a photo
   const handleUpdatePhoto = (id, updatedTitle, updatedUrl) => {
+    //Creates an updated photo object with the new title and URL
     const updatedPhoto = {
       ...photos.find((photo) => photo.id === id),
       title: updatedTitle,
@@ -68,6 +92,7 @@ const Photos = () => {
       thumbnailUrl: updatedUrl
     };
 
+    //Makes a PUT request to update the photo on the server.
     fetch(`http://localhost:3000/photos/${id}`, {
       method: 'PUT',
       headers: {

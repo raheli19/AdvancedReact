@@ -6,17 +6,29 @@ import "../css/Todos.css";
 
 const Todos = ({ user }) => {
   const [todos, setTodos] = useState([]);
+  
+  //holds the selected sorting order.
   const [sorting, setSorting] = useState("sequential");
+  
+  // holds the current search term.
   const [searchTerm, setSearchTerm] = useState("");
+
+  //holds the title of the new task being written
   const [newTodoTitle, setNewTodoTitle] = useState("");
+  
   const { userId } = useParams();
 
+  //The useEffect function runs whenever the user changes. 
+  //If a user is logged in, it calls the fetchTodos function.
   useEffect(() => {
     if (user) {
       fetchTodos();
     }
   }, [user]);
 
+  //This function performs a GET request to the server and returns all tasks
+  //It filters the tasks by userId and updates the todos state.
+  //The tasks are also saved to localStorage.
   const fetchTodos = () => {
     fetch("http://localhost:3000/todos")
       .then((response) => response.json())
@@ -31,8 +43,11 @@ const Todos = ({ user }) => {
     setSorting(e.target.value);
   };
 
+  //This func adds a new task to the task list
   const handleAddTodo = () => {
+    //checks if the new task title is not empty
     if (newTodoTitle.trim() === "") return;
+    //calculates the new task ID 
     const newId = todos.length ? (Math.max(...todos.map(todo => parseInt(todo.id, 10))) + 1).toString() : "1";
     const newTodo = {
       userId: parseInt(user.id, 10),
@@ -41,6 +56,7 @@ const Todos = ({ user }) => {
       completed: false
     };
 
+    //adds the task to the server
     fetch("http://localhost:3000/todos", {
       method: "POST",
       headers: {
@@ -48,6 +64,7 @@ const Todos = ({ user }) => {
       },
       body: JSON.stringify(newTodo),
     })
+    //updates the todos state and clears the new task input field
     .then(response => response.json())
     .then(data => {
       const updatedTodos = [...todos, data];
@@ -60,11 +77,13 @@ const Todos = ({ user }) => {
     });
   };
 
+  //This func deletes a task by its ID.
   const handleDeleteTodo = (id) => {
     fetch(`http://localhost:3000/todos/${id}`, {
       method: "DELETE",
     })
     .then(() => {
+      //updates the todos state by filtering out the deleted task
       const updatedTodos = todos.filter((todo) => todo.id !== id);
       setTodos(updatedTodos);
       localStorage.setItem("todos", JSON.stringify(updatedTodos));
@@ -74,10 +93,12 @@ const Todos = ({ user }) => {
     });
   };
 
+  //This func toggles the completion status of a task
   const handleToggleComplete = (todo_id) => {
     const todoToUpdate = todos.find(todo => todo.id === todo_id);
     const updatedTodo = { ...todoToUpdate, completed: !todoToUpdate.completed };
 
+    //updates the task on the server and updates the todos state
     fetch(`http://localhost:3000/todos/${todo_id}`, {
       method: "PUT",
       headers: {
@@ -98,10 +119,12 @@ const Todos = ({ user }) => {
     });
   };
 
+  //This func updates the title of a task
   const handleUpdateTodo = (id, newTitle) => {
     const todoToUpdate = todos.find(todo => todo.id === id);
     const updatedTodo = { ...todoToUpdate, title: newTitle };
 
+    //updates the task on the server and updates the todos state
     fetch(`http://localhost:3000/todos/${id}`, {
       method: "PUT",
       headers: {
@@ -122,6 +145,7 @@ const Todos = ({ user }) => {
     });
   };
 
+  //Filters the tasks based on the search term
   const filteredTodos = todos
     .filter((todo) => {
       if (searchTerm === "") return true;
@@ -132,6 +156,7 @@ const Todos = ({ user }) => {
       }
       return false;
     })
+    //Sorts the tasks based on the selected sorting order
     .sort((a, b) => {
       switch (sorting) {
         case "sequential":

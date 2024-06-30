@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import "../css/Comments.css";
 
 function Comments({ isOpen, onClose, comments, handleDeleteComment, user, postId, setComments }) {
-  const [newComment, setNewComment] = useState("");
+    //State for storing the new comment being added.
+    const [newComment, setNewComment] = useState("");
 
+  //This function is called when the user clicks the "Add Comment" button.
   const handleAddComment = () => {
     const newCommentObj = {
       postId: postId,
@@ -13,6 +15,7 @@ function Comments({ isOpen, onClose, comments, handleDeleteComment, user, postId
       body: newComment
     };
 
+    //Makes a POST request to add the new comment to the server.
     fetch("http://localhost:3000/comments", {
       method: "POST",
       headers: {

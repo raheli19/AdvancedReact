@@ -24,10 +24,12 @@ function Posts({user}) {
       });
   }, [user]);
 
+  // Navigates to the "NewPost" page when the "Add New Post" button is clicked.
   const handleAddPostClick = () => {
     navigate("/NewPost");
   };
 
+  //Fetches comments for a specific post and opens the comments section.
   const handleCommentsClick = (postId) => {
     setSelectedPostId(postId);
     setAreCommentsOpen(true);
@@ -43,6 +45,7 @@ function Posts({user}) {
     setSelectedPostId(postId);
   };
 
+  // Deletes a comment by making a DELETE request and updating the comments state.
   const handleDeleteComment = (commentId) => {
     fetch(`http://localhost:3000/comments/${commentId}`, {
       method: "DELETE",
@@ -55,6 +58,7 @@ function Posts({user}) {
       });
   };
 
+  //Deletes a post by making a DELETE request and updating the posts state and local storage.
   const handleDeletePost = (id) => {
     fetch(`http://localhost:3000/posts/${id}`, {
       method: "DELETE",
@@ -70,6 +74,7 @@ function Posts({user}) {
       });
   };
 
+  //Updates a post by making a PUT request with new title and body and updating the posts state and local storage.
   const handleUpdatePost = (id) => {
     const updatedPost = posts.find((post) => post.id === id);
     const newTitle = prompt("Enter new title:", updatedPost.title);
@@ -93,6 +98,7 @@ function Posts({user}) {
       });
   };
 
+  //Filters posts based on the search term
   const filteredPosts = posts.filter((post) =>
     post.id.toString().includes(searchTerm) || post.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
