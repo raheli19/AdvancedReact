@@ -15,28 +15,28 @@ function Info({ user }) {
           <strong>ID:</strong> {user.id}
         </p>
         <p className="info-field">
-          <strong>Name:</strong> {user.name}
+          <strong>Name:</strong> {user?.name}
         </p>
         <p className="info-field">
-          <strong>Username:</strong> {user.username}
+          <strong>Username:</strong> {user?.username}
         </p>
         <p className="info-field">
-          <strong>Email:</strong> {user.email}
+          <strong>Email:</strong> {user?.email}
         </p>
         <p className="info-field">
-          <strong>Address:</strong> {user.address.street}, {user.address.suite}, {user.address.city}, {user.address.zipcode}
+          <strong>Address:</strong> {user?.address?.street}, {user?.address?.suite}, {user?.address?.city}, {user?.address?.zipcode}
         </p>
         <p className="info-field">
-          <strong>Geo:</strong> Lat: {user.address.geo.lat}, Lng: {user.address.geo.lng}
+          <strong>Geo:</strong> Lat: {user?.address?.geo?.lat}, Lng: {user?.address?.geo?.lng}
         </p>
         <p className="info-field">
-          <strong>Phone:</strong> {user.phone}
+          <strong>Phone:</strong> {user?.phone}
         </p>
         <p className="info-field">
-          <strong>Website:</strong> {user.website}
+          <strong>Website:</strong> {user?.website}
         </p>
         <p className="info-field">
-          <strong>Company:</strong> {user.company.name}, {user.company.catchPhrase}, {user.company.bs}
+          <strong>Company:</strong> {user?.company?.name}, {user?.company?.catchPhrase}, {user?.company?.bs}
         </p>
       </div>
     </div>

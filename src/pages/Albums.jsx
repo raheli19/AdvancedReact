@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFolder } from '@fortawesome/free-solid-svg-icons';
 import "../css/Albums.css";
@@ -8,9 +8,10 @@ function Albums({ user }) {
   const [albums, setAlbums] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [newAlbumTitle, setNewAlbumTitle] = useState('');
+  const { userId } = useParams();
 
   useEffect(() => {
-    fetch(`http://localhost:3000/albums?userId=${user.id}`)
+    fetch(`http://localhost:3000/albums?userId=${userId}`)
       .then((response) => response.json())
       .then((data) => {
         setAlbums(data);
@@ -24,7 +25,7 @@ function Albums({ user }) {
   const handleAddAlbum = () => {
     const newAlbum = {
       userId: user.id,
-      id: Date.now(), // Temporary ID until the server provides a real one
+      id: `${Date.now()}`,
       title: newAlbumTitle
     };
 
@@ -71,7 +72,7 @@ function Albums({ user }) {
         {filteredAlbums.map((album) => (
           <Link
             key={album.id}
-            to={`/albums/${album.id}`}
+            to={`/albums/${userId}/id/${album.id}`}
             className="album-link"
           >
             <div className="album">

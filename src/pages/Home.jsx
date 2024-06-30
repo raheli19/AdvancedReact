@@ -27,22 +27,22 @@ const Home = () => {
         <nav className="navbar">
           <ul>
             <li>
-              <NavLink to="/Info" activeClassName="active">
+              <NavLink to={`/Info/${user.id}`} activeClassName="active">
                 Info
               </NavLink>
             </li>
             <li>
-              <NavLink to="/Todos" activeClassName="active">
+              <NavLink to={`/Todos/${user.id}`} activeClassName="active">
                 Todos
               </NavLink>
             </li>
             <li>
-              <NavLink to="/Posts" activeClassName="active">
+              <NavLink to={`/Posts/${user.id}`} activeClassName="active">
                 Posts
               </NavLink>
             </li>
             <li>
-              <NavLink to="/Albums" activeClassName="active">
+              <NavLink to={`/Albums/${user.id}`} activeClassName="active">
                 Albums
               </NavLink>
             </li>

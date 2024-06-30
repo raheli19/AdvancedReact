@@ -22,13 +22,12 @@ export default function App() {
           <Route path="/" element={<ProtectedRoutes setUser={setUser} />}>
             <Route index element={<Navigate to="/home" />} />
             <Route path="/home" element={<Home user={user} />} />
-            <Route path="/Info" element={<Info user={user} />} />
-            <Route path="/Todos" element={<Todos user={user} />} />
-            <Route path="/Posts" element={<Posts user={user} />} />
-            <Route path="/Posts/:postId" element={<Posts user={user} />} />
+            <Route path="/Info/:userId" element={<Info user={user} />} />
+            <Route path="/Todos/:userId" element={<Todos user={user} />} />
+            <Route path="/Posts/:userId" element={<Posts user={user}/>} />
             <Route path="/NewPost" element={<NewPost user={user} />} />
-            <Route path="/Albums" element={<Albums user={user} />} />
-            <Route path="/Albums/:albumId" element={<Photos user={user} />} />
+            <Route path="/Albums/:userId" element={<Albums user={user} />} />
+            <Route path="/Albums/:userId/id/:albumId" element={<Photos user={user} />} />
             <Route path="/Logout" element={<Logout setUser={setUser} />} />
           </Route>
           <Route path="/login" element={<Login setUser={setUser} />} />

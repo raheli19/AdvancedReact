@@ -10,17 +10,10 @@ function Register({ setUser }) {
   const [step, setStep] = useState("first");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [street, setStreet] = useState("");
-  const [suite, setSuite] = useState("");
-  const [city, setCity] = useState("");
-  const [zipcode, setZipcode] = useState("");
-  const [lat, setLat] = useState("");
-  const [lng, setLng] = useState("");
   const [phone, setPhone] = useState("");
   const [website, setWebsite] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [catchPhrase, setCatchPhrase] = useState("");
-  const [bs, setBs] = useState("");
 
   const navigate = useNavigate();
 
@@ -39,30 +32,19 @@ function Register({ setUser }) {
     }
   };
 
-  const handleRegister = async () => {
-    const newUser = {
-      id: Date.now().toString(),
-      name,
-      username: userName,
-      email,
-      address: {
-        street,
-        suite,
-        city,
-        zipcode,
-        geo: {
-          lat,
-          lng,
+    const handleRegister = async () => {
+      const newUser = {
+        id: Date.now().toString(),
+        name,
+        username: userName,
+        email,
+        phone,
+        website,
+        company: {
+          name: companyName,
+          catchPhrase,
         },
-      },
-      phone,
-      website,
-      company: {
-        name: companyName,
-        catchPhrase,
-        bs,
-      },
-    };
+      };
 
     let response = await fetch("http://localhost:3000/user", {
       method: "POST",
@@ -121,6 +103,7 @@ function Register({ setUser }) {
           ) : (
             <div className="common-form form-two">
               <h4>Details</h4>
+
               <input
                 className="register-input"
                 type="text"
@@ -135,60 +118,6 @@ function Register({ setUser }) {
                 placeholder = "Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                autoComplete="off"
-              />
-
-              <input
-                className="register-input"
-                type="text"
-                placeholder = "Street"
-                value={street}
-                onChange={(e) => setStreet(e.target.value)}
-                autoComplete="off"
-              />
-
-              <input
-                className="register-input"
-                type="text"
-                placeholder = "Suite"
-                value={suite}
-                onChange={(e) => setSuite(e.target.value)}
-                autoComplete="off"
-              />
-
-              <input
-                className="register-input"
-                type="text"
-                placeholder = "City"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                autoComplete="off"
-              />
-
-              <input
-                className="register-input"
-                type="text"
-                placeholder = "Zipcode"
-                value={zipcode}
-                onChange={(e) => setZipcode(e.target.value)}
-                autoComplete="off"
-              />
-
-              <input
-                className="register-input"
-                type="text"
-                placeholder = "Latitude"
-                value={lat}
-                onChange={(e) => setLat(e.target.value)}
-                autoComplete="off"
-              />
-
-              <input
-                className="register-input"
-                type="text"
-                placeholder = "Longitude"
-                value={lng}
-                onChange={(e) => setLng(e.target.value)}
                 autoComplete="off"
               />
 
@@ -228,14 +157,6 @@ function Register({ setUser }) {
                 autoComplete="off"
               />
 
-              <input
-                className="register-input"
-                type="text"
-                placeholder="bs"
-                value={bs}
-                onChange={(e) => setBs(e.target.value)}
-                autoComplete="off"
-              />
             </div>
           )}
 
