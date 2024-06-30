@@ -132,7 +132,7 @@ const Todos = ({ user }) => {
         case "sequential":
           return a.id - b.id;
         case "completed":
-          return a.completed - b.completed;
+          return b.completed - a.completed;
         case "alphabetical":
           return a.title.localeCompare(b.title);
         case "random":

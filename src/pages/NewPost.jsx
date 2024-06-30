@@ -38,7 +38,7 @@ function NewPost({ user, setPosts }) {
 
   return (
     <div className="new-post-container">
-      <h2>Add New Post</h2>
+      <h1>Add New Post</h1>
       <input
         type="text"
         placeholder="Title"

@@ -121,9 +121,6 @@ function Register({ setUser }) {
           ) : (
             <div className="common-form form-two">
               <h4>Details</h4>
-              <br></br>
-              <br></br>
-
               <input
                 className="register-input"
                 type="text"

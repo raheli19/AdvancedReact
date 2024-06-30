@@ -40,7 +40,7 @@ function Comments({ isOpen, onClose, comments, handleDeleteComment, user, postId
         <button className="close-button" onClick={onClose}>
           X
         </button>
-        <h4>Comments:</h4>
+        <h3>Comments:</h3>
         {comments.map((comment) => (
           <div key={comment.id} className="comment">
             <p>Name: {comment.name}</p>
@@ -52,7 +52,7 @@ function Comments({ isOpen, onClose, comments, handleDeleteComment, user, postId
           </div>
         ))}
         <div>
-          <h4>Add Comment</h4>
+          <h3>Add Comment</h3>
           <input
             type="text"
             placeholder="New comment"
