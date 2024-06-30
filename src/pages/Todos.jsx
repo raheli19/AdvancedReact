@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useParams } from "react-router-dom";
 import { faTrash, faEdit, faSort } from '@fortawesome/free-solid-svg-icons';
 import "../css/Todos.css";
 
@@ -8,6 +9,7 @@ const Todos = ({ user }) => {
   const [sorting, setSorting] = useState("sequential");
   const [searchTerm, setSearchTerm] = useState("");
   const [newTodoTitle, setNewTodoTitle] = useState("");
+  const { userId } = useParams();
 
   useEffect(() => {
     fetchTodos();
@@ -17,7 +19,7 @@ const Todos = ({ user }) => {
     fetch("http://localhost:3000/todos")
       .then((response) => response.json())
       .then((data) => {
-        data = data.filter(t => t.userId === parseInt(user.id, 10));
+        data = data.filter(t => t.userId === parseInt(userId, 10));
         setTodos(data);
         localStorage.setItem("todos", JSON.stringify(data));
       });
@@ -31,7 +33,7 @@ const Todos = ({ user }) => {
     if (newTodoTitle.trim() === "") return;
     const newTodo = {
       userId: parseInt(user.id, 10),
-      id: todos.length ? Math.max(todos.map(todo => parseInt(todo.id, 10))) + 1 : 1,
+      id: `${Date.now()}`,
       title: newTodoTitle,
       completed: false
     };

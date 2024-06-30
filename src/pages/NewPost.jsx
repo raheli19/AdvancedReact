@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/NewPost.css";
 
-function NewPost({ user, setPosts }) {
+function NewPost({ user }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ function NewPost({ user, setPosts }) {
   const handleAddPost = () => {
     const newPost = {
       userId: user.id,
-      id: Date.now(),
+      id: `${Date.now()}`,
       title: title,
       body: body
     };
@@ -24,12 +24,9 @@ function NewPost({ user, setPosts }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        setPosts((prevPosts) => {
-          const updatedPosts = [...prevPosts, data];
-          localStorage.setItem("posts", JSON.stringify(updatedPosts)); // Update local storage
-          return updatedPosts;
-        });
-        navigate("/Posts");
+        const updatedPosts = [...JSON.parse(localStorage.getItem("posts")), data]
+        localStorage.setItem("posts", JSON.stringify(updatedPosts));
+        navigate(`/Posts/${user.id}#bottom`);
       })
       .catch((error) => {
         console.error("Error adding post:", error);

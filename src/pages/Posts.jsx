@@ -3,17 +3,17 @@ import { useParams, useNavigate } from "react-router-dom";
 import Comments from "./Comments";
 import "../css/Posts.css";
 
-function Posts({ user }) {
+function Posts({user}) {
   const [posts, setPosts] = useState([]);
   const [selectedPostId, setSelectedPostId] = useState(null);
   const [comments, setComments] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const { postId } = useParams();
+  const { userId } = useParams();
   const [areCommentsOpen, setAreCommentsOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://localhost:3000/posts?userId=${user.id}`)
+    fetch(`http://localhost:3000/posts?userId=${userId}`)
       .then((response) => response.json())
       .then((data) => {
         setPosts(data);
@@ -97,19 +97,35 @@ function Posts({ user }) {
     post.id.toString().includes(searchTerm) || post.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+   useEffect(() => {
+  const hash = window.location.hash;
+  if (hash) {
+    const id = hash.replace('#', '');
+    setTimeout(() => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  }
+}, []);
+
   return (
-    <div>
+    <div className="posts">
       <div className="posts-header">
         <h2>Posts</h2>
         <button onClick={handleAddPostClick} className="add-post-button">Add New Post</button>
       </div>
-      <input
+      <div className="search">
+        <input
         type="text"
         placeholder="Search posts"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="search-input"
       />
+      </div>
+      
       <div className="posts-container">
         {filteredPosts.map((post) => (
           <div
@@ -142,6 +158,7 @@ function Posts({ user }) {
           postId={selectedPostId}
         />
       )}
+      <div id="bottom"></div>
     </div>
   );
 }

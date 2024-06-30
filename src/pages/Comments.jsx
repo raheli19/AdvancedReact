@@ -7,13 +7,13 @@ function Comments({ isOpen, onClose, comments, handleDeleteComment, user, postId
   const handleAddComment = () => {
     const newCommentObj = {
       postId: postId,
-      id: Date.now(),
+      id: `${Date.now()}`,
       name: user.name,
       email: user.email,
       body: newComment
     };
 
-    fetch("https://jsonplaceholder.typicode.com/comments", {
+    fetch("http://localhost:3000/comments", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -20,22 +20,37 @@
     font-size: 3em;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
   }
-   
+  
+  .navbar {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 40px;
+  }
+
   .navbar ul {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
     margin: 0;
-    margin-left: 480px;
-    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-  
+
   .navbar li {
     width: 100px;
     text-align: center;
     font-weight: bold;
     font-size: 1.5em;
+    margin: 0px 80px 0px 0px;
   }
-  
+
   .navbar a {
     color: #957c7c;
     text-decoration: none;
@@ -43,10 +58,8 @@
     display: block;
     border-radius: 10px;
   }
-  
-  .navbar a:hover {
-    color:rgb(226, 100, 100);
-  }
-  
 
+  .navbar a:hover {
+    color: rgb(226, 100, 100);
+  }
   
