@@ -10,7 +10,9 @@ const Todos = ({ user }) => {
   const [newTodoTitle, setNewTodoTitle] = useState("");
 
   useEffect(() => {
-    fetchTodos();
+    if (user) {
+      fetchTodos();
+    }
   }, [user]);
 
   const fetchTodos = () => {
@@ -29,9 +31,10 @@ const Todos = ({ user }) => {
 
   const handleAddTodo = () => {
     if (newTodoTitle.trim() === "") return;
+    const newId = todos.length ? (Math.max(...todos.map(todo => parseInt(todo.id, 10))) + 1).toString() : "1";
     const newTodo = {
       userId: parseInt(user.id, 10),
-      id: todos.length ? Math.max(todos.map(todo => parseInt(todo.id, 10))) + 1 : 1,
+      id: newId,
       title: newTodoTitle,
       completed: false
     };
@@ -130,7 +133,7 @@ const Todos = ({ user }) => {
     .sort((a, b) => {
       switch (sorting) {
         case "sequential":
-          return a.id - b.id;
+          return parseInt(a.id, 10) - parseInt(b.id, 10);
         case "completed":
           return b.completed - a.completed;
         case "alphabetical":
