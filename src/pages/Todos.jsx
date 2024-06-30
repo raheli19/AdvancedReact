@@ -10,19 +10,18 @@ const Todos = ({ user }) => {
   const [newTodoTitle, setNewTodoTitle] = useState("");
 
   useEffect(() => {
-    const todos_item = localStorage.getItem("todos");
-    if (todos_item) {
-      setTodos(JSON.parse(todos_item));
-    } else {
-      fetch("http://localhost:3000/todos")
-        .then((response) => response.json())
-        .then((response) => {
-          response = response.filter(t => t.userId === user.id);
-          setTodos(response);
-          localStorage.setItem("todos", JSON.stringify(response));
-        });
-    }
+    fetchTodos();
   }, [user]);
+
+  const fetchTodos = () => {
+    fetch("http://localhost:3000/todos")
+      .then((response) => response.json())
+      .then((data) => {
+        data = data.filter(t => t.userId === parseInt(user.id, 10));
+        setTodos(data);
+        localStorage.setItem("todos", JSON.stringify(data));
+      });
+  };
 
   const handleSortingChange = (e) => {
     setSorting(e.target.value);
@@ -31,7 +30,8 @@ const Todos = ({ user }) => {
   const handleAddTodo = () => {
     if (newTodoTitle.trim() === "") return;
     const newTodo = {
-      userId: user.id,
+      userId: parseInt(user.id, 10),
+      id: todos.length ? Math.max(todos.map(todo => parseInt(todo.id, 10))) + 1 : 1,
       title: newTodoTitle,
       completed: false
     };
@@ -43,12 +43,15 @@ const Todos = ({ user }) => {
       },
       body: JSON.stringify(newTodo),
     })
-    .then((response) => response.json())
-    .then((data) => {
+    .then(response => response.json())
+    .then(data => {
       const updatedTodos = [...todos, data];
       setTodos(updatedTodos);
       localStorage.setItem("todos", JSON.stringify(updatedTodos));
       setNewTodoTitle("");
+    })
+    .catch(error => {
+      console.error("Error adding todo:", error);
     });
   };
 
@@ -56,22 +59,19 @@ const Todos = ({ user }) => {
     fetch(`http://localhost:3000/todos/${id}`, {
       method: "DELETE",
     })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Failed to delete the todo");
-      }
+    .then(() => {
       const updatedTodos = todos.filter((todo) => todo.id !== id);
       setTodos(updatedTodos);
       localStorage.setItem("todos", JSON.stringify(updatedTodos));
     })
-    .catch((error) => {
+    .catch(error => {
       console.error("Error deleting todo:", error);
     });
-};
+  };
 
   const handleToggleComplete = (todo_id) => {
-    const todo = todos.find((t) => t.id === todo_id);
-    const updatedTodo = { ...todo, completed: !todo.completed };
+    const todoToUpdate = todos.find(todo => todo.id === todo_id);
+    const updatedTodo = { ...todoToUpdate, completed: !todoToUpdate.completed };
 
     fetch(`http://localhost:3000/todos/${todo_id}`, {
       method: "PUT",
@@ -80,52 +80,42 @@ const Todos = ({ user }) => {
       },
       body: JSON.stringify(updatedTodo),
     })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Failed to update the todo");
-      }
-      return response.json();
-    })
-    .then((data) => {
+    .then(response => response.json())
+    .then(data => {
       const updatedTodos = todos.map(todo =>
         todo.id === todo_id ? data : todo
       );
       setTodos(updatedTodos);
       localStorage.setItem("todos", JSON.stringify(updatedTodos));
     })
-    .catch((error) => {
+    .catch(error => {
       console.error("Error updating todo:", error);
     });
-};
+  };
 
-const handleUpdateTodo = (id, newTitle) => {
-  const todo = todos.find((t) => t.id === id);
-  const updatedTodo = { ...todo, title: newTitle };
+  const handleUpdateTodo = (id, newTitle) => {
+    const todoToUpdate = todos.find(todo => todo.id === id);
+    const updatedTodo = { ...todoToUpdate, title: newTitle };
 
-  fetch(`http://localhost:3000/todos/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updatedTodo),
-  })
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("Failed to update the todo");
-    }
-    return response.json();
-  })
-  .then((data) => {
-    const updatedTodos = todos.map(todo =>
-      todo.id === id ? data : todo
-    );
-    setTodos(updatedTodos);
-    localStorage.setItem("todos", JSON.stringify(updatedTodos));
-  })
-  .catch((error) => {
-    console.error("Error updating todo:", error);
-  });
-};
+    fetch(`http://localhost:3000/todos/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedTodo),
+    })
+    .then(response => response.json())
+    .then(data => {
+      const updatedTodos = todos.map(todo =>
+        todo.id === id ? data : todo
+      );
+      setTodos(updatedTodos);
+      localStorage.setItem("todos", JSON.stringify(updatedTodos));
+    })
+    .catch(error => {
+      console.error("Error updating todo:", error);
+    });
+  };
 
   const filteredTodos = todos
     .filter((todo) => {

@@ -46,7 +46,7 @@ margin-left: 500px;
 }
 
 .selected-post {
-  border: 2px solid #4CAF50;
+  border: 2px solid rgb(226, 100, 100);
 }
 
 button {

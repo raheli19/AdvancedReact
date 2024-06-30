@@ -9,16 +9,21 @@ const Photos = () => {
   const [newPhotoTitle, setNewPhotoTitle] = useState('');
 
   useEffect(() => {
+    fetchPhotos();
+  }, [albumId]);
+
+  const fetchPhotos = () => {
     fetch(`http://localhost:3000/photos?albumId=${albumId}`)
       .then((response) => response.json())
       .then((data) => setPhotos(data))
       .catch((error) => console.error('Error fetching photos:', error));
-  }, [albumId]);
+  };
 
   const handleAddPhoto = () => {
+    if (newPhotoTitle.trim() === "" || newPhotoUrl.trim() === "") return;
+
     const newPhoto = {
-      albumId: parseInt(albumId),
-      id: Date.now(),
+      albumId: parseInt(albumId, 10),
       title: newPhotoTitle,
       url: newPhotoUrl,
       thumbnailUrl: newPhotoUrl
@@ -33,9 +38,7 @@ const Photos = () => {
     })
       .then(response => response.json())
       .then(data => {
-        const updatedPhotos = [...photos, data];
-        setPhotos(updatedPhotos);
-        localStorage.setItem(`photos_album_${albumId}`, JSON.stringify(updatedPhotos));
+        setPhotos([...photos, data]);
         setNewPhotoTitle('');
         setNewPhotoUrl('');
       })
@@ -47,11 +50,12 @@ const Photos = () => {
   const handleDeletePhoto = (id) => {
     fetch(`http://localhost:3000/photos/${id}`, {
       method: 'DELETE',
-    }).then(() => {
+    })
+    .then(() => {
       const updatedPhotos = photos.filter((photo) => photo.id !== id);
       setPhotos(updatedPhotos);
-      localStorage.setItem(`photos_album_${albumId}`, JSON.stringify(updatedPhotos));
-    }).catch(error => {
+    })
+    .catch(error => {
       console.error('Error deleting photo:', error);
     });
   };
@@ -70,16 +74,17 @@ const Photos = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(updatedPhoto),
-    }).then(response => response.json())
-      .then(() => {
-        const updatedPhotos = photos.map((photo) =>
-          photo.id === id ? { ...photo, title: updatedTitle, url: updatedUrl, thumbnailUrl: updatedUrl } : photo
-        );
-        setPhotos(updatedPhotos);
-        localStorage.setItem(`photos_album_${albumId}`, JSON.stringify(updatedPhotos));
-      }).catch(error => {
-        console.error('Error updating photo:', error);
-      });
+    })
+    .then(response => response.json())
+    .then(data => {
+      const updatedPhotos = photos.map((photo) =>
+        photo.id === id ? data : photo
+      );
+      setPhotos(updatedPhotos);
+    })
+    .catch(error => {
+      console.error('Error updating photo:', error);
+    });
   };
 
   return (
